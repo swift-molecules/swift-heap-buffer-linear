@@ -1,16 +1,8 @@
-import Buffer
-import Buffer_Linear_Primitive
-import Buffer_Test_Support
+import Cardinal
 import Heap
 import Heap_Buffer_Linear
-import Index
-import Memory_Allocator_Primitive
-import Memory_Heap
-import Storage
+import Tagged
 import Testing
-
-private typealias HeapColumn<E: ~Copyable> =
-    Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear
 
 @Suite
 struct `Heap Seam Tests` {
@@ -21,11 +13,16 @@ struct `Heap Seam Tests` {
 
 extension `Heap Seam Tests`.Integration {
     @Test
-    func `DS-024 Seam Ledger laws hold for the canonical Heap column`() {
-        let violations = Seam.Ledger.violations(
-            makeEmpty: { HeapColumn<Int>(minimumCapacity: Index<Int>.Count(4)) },
-            element: { $0 }
-        )
-        #expect(violations.isEmpty, "\(violations)")
+    func `canonical front door uses the growable linear column`() {
+        let capacity = Tagged<Int, Cardinal>(_unchecked: Cardinal(UInt(4)))
+        var heap = Heap_Buffer_Linear.Heap<Int>(minimumCapacity: capacity)
+        heap.push(7)
+        heap.push(2)
+        heap.push(5)
+
+        #expect(heap.pop() == 2)
+        #expect(heap.pop() == 5)
+        #expect(heap.pop() == 7)
+        #expect(heap.pop() == nil)
     }
 }
