@@ -66,13 +66,13 @@ let package = Package(
                 .product(name: "Heap", package: "swift-heap"),
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(
-                    name: "Buffer Linear Primitive",
+                    name: "Buffer Linear",
                     package: "swift-buffer-linear"
                 ),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
                 .product(
-                    name: "Memory Allocator Primitive",
+                    name: "Memory Allocator",
                     package: "swift-memory-allocation"
                 ),
                 .product(
